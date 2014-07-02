@@ -23,17 +23,19 @@ var updateScore = function() {
 		});
 	$("#score").text(score);
 	if (score == 5) {
-		$("#all").text(", kaikki oikein!");
+		$("#all").show();
+	} else {
+		$("#all").hide();
 	}
 };
 
 var drop = function(event, ui) {
 	$this = $(this);
 	if ($this.data("name") == ui.draggable.text()) {
-		ui.draggable.css("background", "#9f9");
+		ui.draggable.css("background-color", "#4c4");
 		ui.draggable.data("score", 1);
 	} else {
-		ui.draggable.css("background", "#f99");
+		ui.draggable.css("background-color", "#c44");
 		ui.draggable.data("score", 0);
 	}
 	updateScore();
@@ -54,7 +56,7 @@ var init = function() {
 -->
 <style type="text/css">
 body {
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
 }
 
 #images li, #names li {
@@ -69,16 +71,26 @@ body {
 #names li {
 	border: 1px solid;
 	border-radius: 5px;
-	padding: 8px 16px;
+	padding: 6px 20px;
 	margin-right: 20px;
-	background: #ccf;
+	background-color: #eee;
 	font-weight: bold;
 	font-size: 20px;
+}
+
+#names li {
+	cursor: -webkit-grab;
+	cursor: grab;
+}
+
+#names li:active {
+	cursor: -webkit-grabbing;
+	cursor: grabbing;
 }
 </style>
 </head>
 <body>
-	<h1><span id="score">0</span>/5 oikein<span id="all"></span></h1>
+	<h1><span id="score">0</span>/5 oikein<span id="all" style="display: none;">, kaikki oikein!</span></h1>
 <ul id="images">
 	<li data-name="tatar"><img src="img/tatar.jpg"></li>
 	<li data-name="tattari"><img src="img/tattari.jpg"></li>
