@@ -2,16 +2,52 @@
 <html>
 <head>
  <title>Monivalinta</title>
-<!--
-jQuery:
- <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
- </script>
-<script type="text/javascript">
-$( document ).ready(function() {
-   // start here
-});
+<script type="text/javascript" src="js/jquery-1.11.1.min.js">
 </script>
+<script type="text/javascript" src="js/jquery-ui.js">
+</script>
+<script type="text/javascript">
 
+$(document).ready(function() {
+	init();
+});
+
+var updateScore = function() {
+	var score = $("#names li").
+		map(function(i, e) { 
+			return $(e).data("score"); 
+		}).
+		get().
+		reduce(function(prev, curr) { 
+			return prev + curr; 
+		});
+	$("#score").text(score);
+	if (score == 5) {
+		$("#all").text(", kaikki oikein!");
+	}
+};
+
+var drop = function(event, ui) {
+	$this = $(this);
+	if ($this.data("name") == ui.draggable.text()) {
+		ui.draggable.css("background", "#9f9");
+		ui.draggable.data("score", 1);
+	} else {
+		ui.draggable.css("background", "#f99");
+		ui.draggable.data("score", 0);
+	}
+	updateScore();
+};
+
+var init = function() {
+	$("#names li").draggable();
+	$("#images li").droppable({
+		drop: drop,
+		tolerance: "fit"
+	});
+};
+</script>
+<!--
 <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
 <script type="text/javascript">
 </script>
@@ -23,7 +59,11 @@ body {
 
 #images li, #names li {
 	list-style: none;
-	display: inline;
+	display: inline-block;
+}
+
+#images li {
+	margin-right: 10px;
 }
 
 #names li {
@@ -38,19 +78,20 @@ body {
 </style>
 </head>
 <body>
+	<h1><span id="score">0</span>/5 oikein<span id="all"></span></h1>
 <ul id="images">
-	<li><img src="img/tatar.jpg"></li>
-	<li><img src="img/tattari.jpg"></li>
-	<li><img src="img/tartar.jpg"></li>
-	<li><img src="img/tartan.jpg"></li>
-	<li><img src="img/tataari.jpg"></li>
+	<li data-name="tatar"><img src="img/tatar.jpg"></li>
+	<li data-name="tattari"><img src="img/tattari.jpg"></li>
+	<li data-name="tartar"><img src="img/tartar.jpg"></li>
+	<li data-name="tartan"><img src="img/tartan.jpg"></li>
+	<li data-name="tataari"><img src="img/tataari.jpg"></li>
 </ul>
 <ul id="names">
 	<li>tartan</li>
 	<li>tattari</li>
 	<li>tartar</li>
 	<li>tataari</li>
-	<li>tartar</li>
+	<li>tatar</li>
 </ul>
 </body>
 </html>
